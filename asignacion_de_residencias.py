@@ -5,12 +5,12 @@ from pprint import pprint ## Agarra una matriz y la imprime linda
 def shuffled_list(l):
     shuffle(l)
     return l
-n, m = 10, 2 ## n = estudiantes, m = hospitales
-v = 3 ## Maxima cantidad de vacantes
-## Con n = m = 100000 esto llena la ram y traba la maquina, ni se gasten
-## El limite es n*m <= 10**8
-E = [shuffled_list(range(m)) for _ in xrange(n)] ## Preferencias de cada estudiante
-H = [shuffled_list(range(n)) for _ in xrange(m)] ## Orden de merito
-Q = [choice(range(1,v+1)) for _ in xrange(m)] ## Cantidad de vacantes por hospital
+students_quant, hospitals_quant = 10, 2 ## cantidades
+vacancies_quant = 3 ## Maxima cantidad de vacantes
+## Con students_quant = hospitals_quant = 100000 esto llena la ram y traba la maquina, ni se gasten
+## El limite es students_quant * hospitals_quant <= 10**8
+E = [shuffled_list(range(hospitals_quant)) for _ in xrange(students_quant)] ## Preferencias de cada estudiante
+H = [shuffled_list(range(students_quant)) for _ in xrange(hospitals_quant)] ## Orden de merito
+Q = [choice(range(1,vacancies_quant+1)) for _ in xrange(hospitals_quant)] ## Cantidad de vacantes por hospital
 pprint(E)
 pprint(H)
