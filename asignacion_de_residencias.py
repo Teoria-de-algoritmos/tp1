@@ -23,19 +23,18 @@ pprint(H)
  
 with open("output_asignacion_de_residencias.txt","w") as file: 
 
-	file.write(str(students_quant) + "\n") ## Una línea con el número nn de estudiantes.
+	file.write(str(students_quant) + "\n")
 
-	for i in range(students_quant) ## nn líneas consecutivas que expresen las preferencias de cada estudiante, separados por espacios.
+	for i in range(students_quant):
 		file.write(str(E[i]) + " ")
 	file.write("\n")
 
-	file.write(str(hospitals_quant)+"\n") ## Una línea con el número mm de hospitales.
+	file.write(str(hospitals_quant)+"\n")
 
-	for i in range(hospitals_quant) ## mm líneas consecutivas que expresen el orden de mérito de cada hospital, separados por espacios.
+	for i in range(hospitals_quant):
 		file.write(str(H[i]) + " ")
 	file.write("\n")
 
-	for i in range(hospitals_quant)## Una línea que contenga la cantidad de vacantes de cada uno de los mm hospitales, separados por espacios.
+	for i in range(hospitals_quant):
 		file.write(str(Q[i]) + " ")
 	file.write("\n")
-
