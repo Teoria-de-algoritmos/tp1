@@ -86,35 +86,35 @@ class Graph:
         for index, value in enumerate (ap):
             if value == True: print index,
  
- # Create a graph given in the above diagram
-g1 = Graph(5)
-g1.addEdge(1, 0)
-g1.addEdge(0, 2)
-g1.addEdge(2, 1)
-g1.addEdge(0, 3)
-g1.addEdge(3, 4)
-  
-print "\nArticulation points in first graph "
-g1.AP()
- 
-g2 = Graph(4)
-g2.addEdge(0, 1)
-g2.addEdge(1, 2)
-g2.addEdge(2, 3)
-print "\nArticulation points in second graph "
-g2.AP()
- 
-  
-g3 = Graph (7)
-g3.addEdge(0, 1)
-g3.addEdge(1, 2)
-g3.addEdge(2, 0)
-g3.addEdge(1, 3)
-g3.addEdge(1, 4)
-g3.addEdge(1, 6)
-g3.addEdge(3, 5)
-g3.addEdge(4, 5)
-print "\nArticulation points in third graph "
-g3.AP()
- 
-#This code is contributed by Neelam Yadav
+
+                    ## Example
+##g3 = Graph (7)
+##g3.addEdge(0, 1)
+##g3.addEdge(1, 2)
+##g3.addEdge(2, 0)
+##g3.addEdge(1, 3)
+##g3.addEdge(1, 4)
+##g3.addEdge(1, 6)
+##g3.addEdge(3, 5)
+##g3.addEdge(4, 5)
+##print "\nArticulation points in example graph "
+##g3.AP() 
+
+
+with open("Archivos\g1.txt","r") as file: 
+
+    print("Graph size: "+str(file.readline()))
+    
+    graph = Graph(file.readline())
+
+    for line in file:
+        
+        line = line.replace("\n", "")
+        str_vect = line.split(" ")
+
+        if str_vect[0].isdigit() and str_vect[1].isdigit():
+            graph.addEdge(int(str_vect[0]), int(str_vect[1]))
+
+print("Articulation points: ")    
+graph.AP()
+
