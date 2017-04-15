@@ -21,26 +21,21 @@ pprint(E)
 print("Orden de merito:")
 pprint(H)
  
-file = open("output_asignacion_de_residencias.txt", "w")## Archivo:
+with open("output_asignacion_de_residencias.txt","w") as file: 
 
-## Una línea con el número nn de estudiantes.
-file.write(str(students_quant) + "\n") 
+	file.write(str(students_quant) + "\n") ## Una línea con el número nn de estudiantes.
 
-## nn líneas consecutivas que expresen las preferencias de cada estudiante, separados por espacios.
-for i in range(students_quant)
-	file.write(str(E[i]) + " ")
-file.write("\n")
+	for i in range(students_quant) ## nn líneas consecutivas que expresen las preferencias de cada estudiante, separados por espacios.
+		file.write(str(E[i]) + " ")
+	file.write("\n")
 
-## Una línea con el número mm de hospitales.
-file.write(str(hospitals_quant)+"\n")
+	file.write(str(hospitals_quant)+"\n") ## Una línea con el número mm de hospitales.
 
-## mm líneas consecutivas que expresen el orden de mérito de cada hospital, separados por espacios.
-for i in range(hospitals_quant)
-	file.write(str(H[i]) + " ")
-file.write("\n")
+	for i in range(hospitals_quant) ## mm líneas consecutivas que expresen el orden de mérito de cada hospital, separados por espacios.
+		file.write(str(H[i]) + " ")
+	file.write("\n")
 
-for i in range(hospitals_quant)## Una línea que contenga la cantidad de vacantes de cada uno de los mm hospitales, separados por espacios.
-	file.write(str(Q[i]) + " ")
-file.write("\n")
+	for i in range(hospitals_quant)## Una línea que contenga la cantidad de vacantes de cada uno de los mm hospitales, separados por espacios.
+		file.write(str(Q[i]) + " ")
+	file.write("\n")
 
-file.close()
