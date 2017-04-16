@@ -7,7 +7,7 @@ from collections import defaultdict
 class Graph:
   
     def __init__(self,vertices):
-        self.V= vertices #No. of vertices
+        self.V = vertices #No. of vertices
         self.graph = defaultdict(list) # default dictionary to store graph
         self.Time = 0
   
@@ -26,7 +26,7 @@ class Graph:
     def APUtil(self,u, visited, ap, parent, low, disc):
  
         #Count of children in current node 
-        children =0
+        children = 0
  
         # Mark the current node as visited and print it
         visited[u]= True
@@ -79,12 +79,12 @@ class Graph:
         # Call the recursive helper function
         # to find articulation points
         # in DFS tree rooted with vertex 'i'
-        for i in range(self.V):
-            if visited[i] == False:
+        for i in xrange(self.V):
+            if not visited[i]:
                 self.APUtil(i, visited, ap, parent, low, disc)
  
         for index, value in enumerate (ap):
-            if value == True: print index,
+            if value: print index,
  
 
                     ## Example
@@ -101,19 +101,16 @@ class Graph:
 ##g3.AP() 
 
 
-with open("Archivos\g1.txt","r") as file: 
+with open("Archivos/g1.txt","r") as file: 
 
-    print("Graph size: "+str(file.readline()))
+    print("Graph size: "+str(file.readline().strip()))
     
-    graph = Graph(file.readline())
+    graph = Graph(int(file.readline()))
 
     for line in file:
-        
-        line = line.replace("\n", "")
-        str_vect = line.split(" ")
-
-        if str_vect[0].isdigit() and str_vect[1].isdigit():
-            graph.addEdge(int(str_vect[0]), int(str_vect[1]))
+       
+        u, v = map(int, line.strip().split())
+        graph.addEdge(u, v)
 
 print("Articulation points: ")    
 graph.AP()
