@@ -1,117 +1,100 @@
-# Python program to find articulation points in an undirected graph
+# Puntos de articulacion en un grafo no direccionado
   
 from collections import defaultdict
   
-#This class represents an undirected graph 
-#using adjacency list representation
+#Clase grafo no direccionado usando una representacion de listas adyacentes
 class Graph:
   
+    # Inicializador
     def __init__(self,vertices):
-        self.V = vertices #No. of vertices
-        self.graph = defaultdict(list) # default dictionary to store graph
-        self.Time = 0
+        self.V = vertices               #Numero de vertices.
+        self.graph = defaultdict(list)  #Diccionario default para almacenar el grafo
+        self.Time = 0                   #Tiempo de encuentro
+        self.ap_list = []           #Lista de puntos de articulacion del grafo
   
-    # function to add an edge to graph
+    # Funcion para agregar un elemento al grafo no direccionado
     def addEdge(self,u,v):
         self.graph[u].append(v)
         self.graph[v].append(u)
   
-    '''A recursive function that find articulation points 
-    using DFS traversal
-    u --> The vertex to be visited next
-    visited[] --> keeps tract of visited vertices
-    disc[] --> Stores discovery times of visited vertices
-    parent[] --> Stores parent vertices in DFS tree
-    ap[] --> Store articulation points'''
-    def APUtil(self,u, visited, ap, parent, low, disc):
+
+    # Funcion que encuentra puntos de articulacion utilizando DFS.
+    def APUtil(self, u, visited, ap_flag, parent, low_time, discovery_time):
  
-        #Count of children in current node 
-        children = 0
+        children_quantity = 0           #Cantidad de hijos del nodo
+        visited[u]= True                #Se avisa que se visito el nodo.
  
-        # Mark the current node as visited and print it
-        visited[u]= True
+        discovery_time[u] = self.Time   #Inicializador del tiempo de descubrimiento
+        low_time[u] = self.Time         #Inicializador del tiempo de baja
+        self.Time += 1                  #Se incrementa en 1 el tiempo actual
  
-        # Initialize discovery time and low value
-        disc[u] = self.Time
-        low[u] = self.Time
-        self.Time += 1
+        
+        for v in self.graph[u]:         #Se recorren todos los vertices adyacentes
+
+            if visited[v] == False :    #Si el vertice v no ha sido visitado
+                
+                parent[v] = u           #Se incide que es un hijo del vertice u en el arbol DFS
+                children_quantity += 1  #Se incrementa en 1 la cantidad de hijos
+
+                self.APUtil(v, visited, ap_flag, parent, low_time, discovery_time) #Llamada recursiva de la funcion
  
-        #Recur for all the vertices adjacent to this vertex
-        for v in self.graph[u]:
-            # If v is not visited yet, then make it a child of u
-            # in DFS tree and recur for it
-            if visited[v] == False :
-                parent[v] = u
-                children += 1
-                self.APUtil(v, visited, ap, parent, low, disc)
+                low_time[u] = min(low_time[u], low_time[v])     #Chequea los ancestros del subarbol comparando los tiempos de baja minima
  
-                # Check if the subtree rooted with v has a connection to
-                # one of the ancestors of u
-                low[u] = min(low[u], low[v])
+                # u es un punto de articulacion si se cumple los siguientes casos
+                
+                if parent[u] == -1 and children_quantity > 1:                   # (1) u es la raiz del arbol DFS y tiene al menos dos hijos.
+                    
+                    ap_flag[u] = True
  
-                # u is an articulation point in following cases
-                # (1) u is root of DFS tree and has two or more chilren.
-                if parent[u] == -1 and children > 1:
-                    ap[u] = True
- 
-                #(2) If u is not root and low value of one of its child is more
-                # than discovery value of u.
-                if parent[u] != -1 and low[v] >= disc[u]:
-                    ap[u] = True   
+
+                if parent[u] != -1 and low_time[v] >= discovery_time[u]:        #(2) Si el valor de baja de alguno de sus hijos es mayor al
+                                                                                # tiempo de desubrimiento de u
+                    ap_flag[u] = True   
                      
-                # Update low value of u for parent function calls   
-            elif v != parent[u]: 
-                low[u] = min(low[u], disc[v])
+                 
+            elif v != parent[u]:        #Si el vertice v ha sido visitado y no es el padre de u
+                
+                low_time[u] = min(low_time[u], discovery_time[v])
  
  
     #The function to do DFS traversal. It uses recursive APUtil()
     def AP(self):
   
-        # Mark all the vertices as not visited 
-        # and Initialize parent and visited, 
-        # and ap(articulation point) arrays
-        visited = [False] * (self.V)
-        disc = [float("Inf")] * (self.V)
-        low = [float("Inf")] * (self.V)
-        parent = [-1] * (self.V)
-        ap = [False] * (self.V) #To store articulation points
+        visited = [False] * (self.V)                #Lista de flags para saber si el elemento fue visitado o no
+        discovery_time = [float("Inf")] * (self.V)  #Lista de tiempos de descubrimiento
+        low_time = [float("Inf")] * (self.V)        #Lista de tiempos de baja
+        parent = [-1] * (self.V)                    #Lista de padres
+        ap_flag = [False] * (self.V)                #Lista de flags que determinan si es o no un punto de articulacion
+
+        for i in xrange(self.V):                    #Se recorre la cantidad de elementos del grafo
+
+            if not visited[i]:                      #Si el elemento no fue visitado, se llama la funcion
+
+                self.APUtil(i, visited, ap_flag, parent, low_time, discovery_time)
  
-        # Call the recursive helper function
-        # to find articulation points
-        # in DFS tree rooted with vertex 'i'
-        for i in xrange(self.V):
-            if not visited[i]:
-                self.APUtil(i, visited, ap, parent, low, disc)
- 
-        for index, value in enumerate (ap):
-            if value: print index,
- 
+        for index, value in enumerate (ap_flag):    #Se itera ern la lista de puntos de articulacion, analizando su indice y su estado
 
-                    ## Example
-##g3 = Graph (7)
-##g3.addEdge(0, 1)
-##g3.addEdge(1, 2)
-##g3.addEdge(2, 0)
-##g3.addEdge(1, 3)
-##g3.addEdge(1, 4)
-##g3.addEdge(1, 6)
-##g3.addEdge(3, 5)
-##g3.addEdge(4, 5)
-##print "\nArticulation points in example graph "
-##g3.AP() 
+            if value: self.ap_list.append(index)    #Si es un punto de articulacion, se almacena en al lista de AP
+
+    #Funcion que retorna una lista de puntos de articulacion
+    def AP_list_get(self):
+        self.AP()                                   #Se calcula los puntos de articulacion
+        return self.ap_list
 
 
-with open("Archivos/g1.txt","r") as file: 
+with open("Archivos/g1.txt","r") as file:               #Se abre el archivo en modo lectura
 
-    print("Graph size: "+str(file.readline().strip()))
+    print("Tamano del grafo: " + str(file.readline().strip()))  #Se imprime por pantalla la cantidad de vertices del grafo, o tamano del mismo
     
-    graph = Graph(int(file.readline()))
+    graph = Graph(int(file.readline()))                 #Se lee almacena como entero el dato impreso previamente
 
-    for line in file:
+    for line in file:                                   #Se itera en todas las lineas del archivo
        
-        u, v = map(int, line.strip().split())
-        graph.addEdge(u, v)
+        u, v = map(int, line.strip().split())           #Se separa cada linea leida en dos elementos, los cuales son convertidos a int.
+        graph.addEdge(u, v)                             #Se agrega dicha arista o vertices conectados
+    
+    #Se cierra el archivo
 
-print("Articulation points: ")    
-graph.AP()
+#Se imprimen los puntos de articulacion calculados por la rutina del objeto graph
+print("Puntos de articulacion: " + (str(graph.AP_list_get())))                       
 
