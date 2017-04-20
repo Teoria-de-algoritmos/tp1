@@ -23,7 +23,7 @@ def scc(grafo, vertices):
                 visitar(v)
             L.appendleft(u)
  
-    for u in xrange(1,vertices+1):
+    for u in xrange(vertices):
         visitar(u)
  
     asignado = defaultdict(lambda:-1)
