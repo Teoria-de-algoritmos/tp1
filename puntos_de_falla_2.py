@@ -42,7 +42,6 @@ def visitar(u, visitado, ap_flag, padre, tiempo_de_baja, tiempo_de_descubrimient
             tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_descubrimiento[v])
 
 
-#The function to do DFS traversal. It uses recursive APUtil()
 def puntos_de_articulacion(grafo):
     visitado = [False] * (grafo.vertices())                #Lista de flags para saber si el elemento fue visitado o no
     tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  #Lista de tiempos de descubrimiento
@@ -54,7 +53,7 @@ def puntos_de_articulacion(grafo):
         if not visitado[i]:                      #Si el elemento no fue visitado, se llama la funcion
             visitar(i, visitado, ap_flag, padre, tiempo_de_baja, tiempo_de_descubrimiento)
 
-    for indice, valor in enumerate (ap_flag):    #Se itera ern la lista de puntos de articulacion, analizando su indice y su estado
+    for indice, valor in enumerate (ap_flag):    #Se itera en la lista de puntos de articulacion, analizando su indice y su estado
         if valor: puntos_articulacion.append(indice)    #Si es un punto de articulacion, se almacena en al lista de AP
     
     return puntos_articulacion
