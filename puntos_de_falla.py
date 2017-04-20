@@ -48,7 +48,7 @@ class Graph:
  
 
                 if parent[u] != -1 and low_time[v] >= discovery_time[u]:        #(2) Si el valor de baja de alguno de sus hijos es mayor al
-                                                                                # tiempo de desubrimiento de u
+                                                                                # tiempo de descubrimiento de u
                     ap_flag[u] = True   
                      
                  
