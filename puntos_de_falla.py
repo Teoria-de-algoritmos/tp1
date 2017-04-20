@@ -82,7 +82,7 @@ class Graph:
         return self.ap_list
 
 
-with open("Archivos/g1.txt","r") as file:               #Se abre el archivo en modo lectura
+with open("Archivos/Problema 2/g1.txt","r") as file:               #Se abre el archivo en modo lectura
 
     print("Tamano del grafo: " + str(file.readline().strip()))  #Se imprime por pantalla la cantidad de vertices del grafo, o tamano del mismo
     
