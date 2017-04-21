@@ -1,14 +1,12 @@
-# Puntos de articulacion en un grafo no direccionado
 from GrafoUtils import Grafo
-
 class Tarjan:
     def __init__(self, ruta):
         grafo = Grafo.parse(ruta)
-        visitado = [False] * (grafo.vertices())                #Lista de flags para saber si el elemento fue visitado o no
-        tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  #Lista de tiempos de descubrimiento
-        tiempo_de_baja = [float("Inf")] * (grafo.vertices())        #Lista de tiempos de baja
-        padre = [-1] * (grafo.vertices())                    #Lista de padres
-        punto_articulacion = [False] * (grafo.vertices())                #Lista de flags que determinan si es o no un punto de articulacion
+        visitado = [False] * (grafo.vertices())                
+        tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  
+        tiempo_de_baja = [float("Inf")] * (grafo.vertices())        
+        padre = [-1] * (grafo.vertices())                  
+        punto_articulacion = [False] * (grafo.vertices())              
         self.tiempo = 0                   #Tiempo de encuentro
         # Funcion que encuentra puntos de articulacion utilizando DFS.
         def visitar(u):
@@ -33,17 +31,13 @@ class Tarjan:
                 elif v != padre[u]:        #Si el vertice v ha sido visitado y no es el padre de u
                     tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_descubrimiento[v])
         
-        for i in xrange(grafo.vertices()):                    #Se recorre la cantidad de elementos del grafo
-            if not visitado[i]:                      #Si el elemento no fue visitado, se llama la funcion
+        for i in xrange(grafo.vertices()):                   
+            if not visitado[i]:                    
                 visitar(i)
-        #Lista de puntos de articulacion del grafo        
-        #Se itera en la lista de puntos de articulacion, analizando su indice y su estado
-        #Si es un punto de articulacion, se almacena en al lista de AP
         self.puntos_articulacion = [indice for indice in xrange(grafo.vertices()) if punto_articulacion[indice]]
     
     def get_puntos_articulacion(self):
         return self.puntos_articulacion
 
-t1 = Tarjan("Archivos/Problema 2/g1.txt")    
-
-print "Puntos de articulacion: " + "".join(str(x) + " " for x in t1.get_puntos_articulacion())
+#t1 = Tarjan("Archivos/Problema 2/g1.txt")    
+#print "Puntos de articulacion: " + "".join(str(x) + " " for x in t1.get_puntos_articulacion())
