@@ -30,7 +30,7 @@ class Kosaraju:
         def asignar(u, raiz):
             if asignado[u] == -1:
                 asignado[u] = raiz
-                for v in self.grafo.vecinos_salientes(u):
+                for v in self.grafo.vecinos(u):
                     asignar(v, raiz)
         for u in L:
             asignar(u,u)
