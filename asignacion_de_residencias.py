@@ -1,17 +1,10 @@
 from random import shuffle, choice ## Shuffle desordena una lista, no devuelve nada. Choice devuelve un elemento random de una lista
-#from pprint import pprint ## Agarra una matriz y la imprime linda
 from collections import defaultdict
-import timeit
+
 class Residencias:
     
-    def mezclar_lista(self, l): ## Agarra una lista y la devuelve desordenada
-        shuffle(l)
-        return l
-    
     def __init__(self, pedir_input=False):
-        self.time = timeit.default_timer()
         self.resultado = []
-        #print self.time
         if pedir_input:
             self.estudiantes = input("Ingresar la cantidad de estudiantes: ")
             self.hospitales = input("Ingresar la cantidad de hospitales: ")
@@ -20,21 +13,25 @@ class Residencias:
             self.estudiantes = 100
             self.hospitales = 100
             self.vacantes = 1
-        
-        ## Con students_quant = hospitals_quant = 100000 esto llena la ram y traba la maquina, ni se gasten
-        ## El limite es students_quant * hospitals_quant <= 10**8
         self.E = [self.mezclar_lista(range(self.hospitales)) for _ in xrange(self.estudiantes)] ## Preferencias de cada estudiante
         self.H = [self.mezclar_lista(range(self.estudiantes)) for _ in xrange(self.hospitales)] ## Orden de merito
         self.Q = [choice(range(1,self.vacantes+1)) for _ in xrange(self.hospitales)] ## Cantidad de vacantes por hospital    
-        #print("Preferencia de estudiantes:")                                                                          
-        #pprint(E)
-        #print("Orden de merito:")
-        #pprint(H)
-        #print("Cantidad de vacantes por hospital:")
-        #print Q
         self.equivalencias = {}
         self.escribir_archivo("output_asignacion_de_residencias.txt")
-        #print timeit.default_timer() - self.time
+
+    def mezclar_lista(self, l): ## Agarra una lista y la devuelve desordenada
+        shuffle(l)
+        return l
+
+    def preferencias_estudiantes(self):
+    	return self.E
+
+    def orden_merito(self):
+    	return self.H
+
+   	def vacantes(self):
+   		return self.Q
+
     def reducir(self):
         from copy import deepcopy
         hombres = defaultdict(list)
@@ -71,7 +68,6 @@ class Residencias:
                         pareja_hombre[props_m[i]] = -1
                         sig_prop_hombre[props_m[i]] += 1
                     prop_mujer[m] = [props_m[0]]
-        #print timeit.default_timer()-self.time
         return [pref_hombre[i][sig_prop_hombre[i]] for i in xrange(hombres)]
     
     def obtener_resultados(self):
@@ -92,5 +88,5 @@ class Residencias:
                 archivo.write("".join(str(merito) + " " for merito in hospital) + "\n")
             archivo.write("".join(str(vac) + " " for vac in self.Q) + "\n")
     
-#r1 = Residencias(False)
+#r1 = Residencias()
 #print r1.obtener_resultados()
