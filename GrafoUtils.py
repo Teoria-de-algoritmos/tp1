@@ -1,4 +1,13 @@
-from collections import defaultdict
+from collections import defaultdict    
+    
+def parse(clase, ruta_archivo):
+    archivo = open(ruta_archivo)
+    grafo = clase(int(archivo.readline())) 
+    for a in xrange(int(archivo.readline())):
+        u, v = map(int, archivo.readline().split())
+        grafo.eje(u, v)
+    return grafo
+
 #Clase grafo direccionado usando una representacion de listas adyacentes   
 class Digrafo:
     # Inicializador
@@ -20,14 +29,7 @@ class Digrafo:
     def vecinos_entrantes(self, u):
         for v in self.grafo[u][1]:
             yield v
-    @classmethod        
-    def parse(self, ruta_archivo):
-        archivo = open(ruta_archivo)
-        grafo = Digrafo(int(archivo.readline())) 
-        for a in xrange(int(archivo.readline())):
-            u, v = map(int, archivo.readline().split())
-            grafo.eje(u, v)
-        return grafo
+
             
 #Clase grafo no direccionado usando una representacion de listas adyacentes            
 class Grafo:
@@ -46,12 +48,3 @@ class Grafo:
     def vecinos(self, u):
         for v in self.grafo[u]:
             yield v
-            
-    @classmethod        
-    def parse(self, ruta_archivo):
-        archivo = open(ruta_archivo)
-        grafo = Grafo(int(archivo.readline()))
-        for a in xrange(int(archivo.readline())):
-            u, v = map(int, archivo.readline().split())
-            grafo.eje(u, v)
-        return grafo

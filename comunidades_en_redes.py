@@ -1,11 +1,11 @@
 from collections import deque ## cola optimizada
 from collections import defaultdict
-from GrafoUtils import Digrafo
+from GrafoUtils import Digrafo, parse
 
 class Kosaraju:
     
-    def __init__(self, ruta):
-        self.grafo = Digrafo.parse(ruta)
+    def __init__(self, grafo):
+        self.grafo = grafo
         self.componentes = defaultdict(list)
         self.componentes_fuertemente_conexas(self.grafo.vertices())
         
@@ -44,5 +44,5 @@ class Kosaraju:
     def componente_dado_elemento(self, elemento):
         return self.componentes[self.asignado[elemento]]
     
-#k1 = Kosaraju("Archivos/Problema 3/d2.txt")
-#print k1.cantidad_componentes()
+k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d2.txt"))
+print k1.cantidad_componentes()

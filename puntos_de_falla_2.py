@@ -1,7 +1,6 @@
-from GrafoUtils import Grafo
+from GrafoUtils import Grafo, parse
 class Tarjan:
-    def __init__(self, ruta):
-        grafo = Grafo.parse(ruta)
+    def __init__(self, grafo):
         visitado = [False] * (grafo.vertices())                
         tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  
         tiempo_de_baja = [float("Inf")] * (grafo.vertices())        
@@ -39,5 +38,5 @@ class Tarjan:
     def get_puntos_articulacion(self):
         return self.puntos_articulacion
 
-#t1 = Tarjan("Archivos/Problema 2/g1.txt")    
-#print "Puntos de articulacion: " + "".join(str(x) + " " for x in t1.get_puntos_articulacion())
+t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g1.txt"))    
+print "Puntos de articulacion: " + "".join(str(x) + " " for x in t1.get_puntos_articulacion())
