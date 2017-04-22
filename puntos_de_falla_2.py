@@ -30,13 +30,13 @@ class Tarjan:
                 elif v != padre[u]:        #Si el vertice v ha sido visitado y no es el padre de u
                     tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_descubrimiento[v])
         
-        for i in xrange(grafo.vertices()):                   
-            if not visitado[i]:                    
-                visitar(i)
-        self.puntos_articulacion = [indice for indice in xrange(grafo.vertices()) if punto_articulacion[indice]]
+        for v in xrange(grafo.vertices()):                   
+            if not visitado[v]:                    
+                visitar(v)
+        self.puntos_articulacion = [v for v in xrange(grafo.vertices()) if punto_articulacion[v]]
     
     def get_puntos_articulacion(self):
         return self.puntos_articulacion
 
-t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g1.txt"))    
-print "Puntos de articulacion: " + "".join(str(x) + " " for x in t1.get_puntos_articulacion())
+#t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g1.txt"))    
+#print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
