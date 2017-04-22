@@ -3,16 +3,16 @@ from collections import defaultdict
 
 class Residencias:
     
-    def __init__(self, pedir_input=False):
+    def __init__(self, pedir_input=False, cant_estudiantes=100, cant_hospitales=100, cant_vacantes=1):
         self.resultado = []
         if pedir_input:
             self.estudiantes = input("Ingresar la cantidad de estudiantes: ")
             self.hospitales = input("Ingresar la cantidad de hospitales: ")
             self.vacantes = input("Ingresar la cantidad de vacantes maxima: ")
         else :
-            self.estudiantes = 100
-            self.hospitales = 100
-            self.vacantes = 1
+            self.estudiantes = cant_estudiantes
+            self.hospitales = cant_hospitales
+            self.vacantes = cant_vacantes
         self.E = [self.mezclar_lista(range(self.hospitales)) for _ in xrange(self.estudiantes)] ## Preferencias de cada estudiante
         self.H = [self.mezclar_lista(range(self.estudiantes)) for _ in xrange(self.hospitales)] ## Orden de merito
         self.Q = [choice(range(1,self.vacantes+1)) for _ in xrange(self.hospitales)] ## Cantidad de vacantes por hospital    
@@ -24,13 +24,13 @@ class Residencias:
         return l
 
     def preferencias_estudiantes(self):
-    	return self.E
+        return self.E
 
     def orden_merito(self):
-    	return self.H
+        return self.H
 
-   	def vacantes(self):
-   		return self.Q
+    def vacantes(self):
+        return self.Q
 
     def reducir(self):
         from copy import deepcopy
@@ -71,11 +71,10 @@ class Residencias:
         return [pref_hombre[i][sig_prop_hombre[i]] for i in xrange(hombres)]
     
     def obtener_resultados(self):
-        if not self.resultado:
-            self.resultado = self.gale_shapley(*self.reducir())
-            for i in xrange(len(self.resultado)):
-                if self.resultado[i] in self.equivalencias:
-                    self.resultado[i] = self.equivalencias[self.resultado[i]]
+        self.resultado = self.gale_shapley(*self.reducir())
+        for i in xrange(len(self.resultado)):
+            if self.resultado[i] in self.equivalencias:
+                self.resultado[i] = self.equivalencias[self.resultado[i]]
         return self.resultado
     
     def escribir_archivo(self, ruta):
