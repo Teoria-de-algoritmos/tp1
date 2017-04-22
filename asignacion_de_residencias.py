@@ -47,8 +47,7 @@ class Residencias:
                 m_cant += 1
         for h in xrange(self.estudiantes):
             for m in xrange(self.hospitales):
-                for i_m in mujeres[self.E[h][m]]:
-                    hombres[h].append(i_m)
+            	hombres[h].extend(dic_m[self.E[h][m]])
         return (self.estudiantes, m_cant, [hombres[h] for h in xrange(self.estudiantes)], mujeres)
      
     def gale_shapley(self, hombres, mujeres, pref_hombre, pref_mujer):
