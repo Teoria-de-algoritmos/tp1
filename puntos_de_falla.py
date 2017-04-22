@@ -1,97 +1,79 @@
-# Puntos de articulacion en un grafo no direccionado
 from GrafoUtils import Grafo, parse
-
-#Clase grafo no direccionado usando una representacion de listas adyacentes
 
 ##
 ## @brief      Class for tarjan.
 ##
 class Tarjan:
-    ##
-    ## @brief      Constructs the object.
-    ##
-    ## @param      self   The object
-    ## @param      graph  The graph
-    ##
-    def __init__(self, graph):
 
-        visited_flags = [False] * (graph.vertices())                
-        discovered_time = [float("Inf")] * (graph.vertices())  
-        low_time = [float("Inf")] * (graph.vertices())        
-        father_v = [-1] * (graph.vertices())                  
-        ap_list = [False] * (graph.vertices())              
-        self.appear_time = 0     
-                                        
+    ##
+    ## @brief      Construye el objeto.
+    ##
+    ## @param      self   El objeto
+    ## @param      grafo  El grafo a analizar
+    ##
+    def __init__(self, grafo):
+        visitado = [False] * (grafo.vertices())                
+        tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  
+        tiempo_de_baja = [float("Inf")] * (grafo.vertices())        
+        padre = [-1] * (grafo.vertices())                  
+        punto_articulacion = [False] * (grafo.vertices())              
+        self.tiempo = 0                   #Tiempo de encuentro
+
         ##
-        ## @brief      Visit vertex and find articulation points
+        ## @brief      Visita un vertice y actualiza los tiempos
         ##
-        ## @param      u     A vertex
+        ## @param      u     vertice
         ##
         ## @return     None
         ##
-        def visit_vertex(u):
+        def visitar(u):
 
-            sons_quant = 0          
-            visited_flags[u] = True                
-            discovered_time[u] = self.appear_time   
-            low_time[u] = self.appear_time         
-            self.appear_time += 1  
+            hijos = 0          
+            visitado[u] = True                
+            tiempo_de_descubrimiento[u] = self.tiempo   
+            tiempo_de_baja[u] = self.tiempo         
+            self.tiempo += 1   
 
-            for v in graph.vecinos(u):                              #Se recorren todos los vertices adyacentes
-                                               
-                if not visited_flags[v] : 
-
-                    father_v[v] = u                                 #Se incide que es un hijo del vertice u en el arbol DFS
-                                                                    
-                    sons_quant += 1                                 #Incrementa la cantidad de hijos
-
-                    visit_vertex(v)                                 #Llamada recursiva de la funcion
-                                                                    
-                    low_time[u] = min(low_time[u], low_time[v])     #Chequea los ancestros del subarbol comparando los tiempos de baja minima
-                    
+            for v in grafo.vecinos(u):         #Se recorren todos los vertices adyacentes
+                if not visitado[v] :    
+                    padre[v] = u           #Se incide que es un hijo del vertice u en el arbol DFS
+                    hijos += 1  
+                    visitar(v) #Llamada recursiva de la funcion
+                    tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_baja[v])     #Chequea los ancestros del subarbol comparando los tiempos de baja minima
+                                        
                     # u es un punto de articulacion si se cumple los siguientes casos:
                     # 
-                    #       (1) u es la raiz del arbol DFS y tiene al menos dos hijos. 
+                    #(1) u es la raiz del arbol DFS y tiene al menos dos hijos. 
                     #
-                    #       (2) Si el valor de baja de alguno de sus hijos es mayor al tiempo de descubrimiento de u    
+                    #(2) Si el valor de baja de alguno de sus hijos es mayor al tiempo de descubrimiento de u    
                     #
-                    if father_v[u] == -1 and sons_quant > 1:                      
-                                                                                
-                        ap_list[u] = True
-                     
-                    if father_v[u] != -1 and low_time[v] >= discovered_time[u]:
+                    if padre[u] == -1 and hijos > 1:               
+                        punto_articulacion[u] = True
 
-                        ap_list[u] = True   
+                    if padre[u] != -1 and tiempo_de_baja[v] >= tiempo_de_descubrimiento[u]:       
+                        punto_articulacion[u] = True   
     
-                elif v != father_v[u]:                              #Si el vertice v ha sido visitado y no es el padre de u
-
-                    low_time[u] = min(low_time[u], discovered_time[v])
+                elif v != padre[u]:        # Si el vertice v ha sido visitado y no es el padre de u
+                    tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_descubrimiento[v])
         
-        for v in xrange(graph.vertices()):  
+        for v in xrange(grafo.vertices()):                   
+            
+            if not visitado[v]:                    
+                visitar(v)
 
-            if not visited_flags[v]:    
-
-                visit_vertex(v)
-
-        self.ap_result = [v for v in xrange(graph.vertices()) if ap_list[v]]
+        self.puntos_articulacion = [v for v in xrange(grafo.vertices()) if punto_articulacion[v]]
     
-
     ##
-    ## @brief      Gets the articulation points.
+    ## @brief      Gets the puntos articulacion.
     ##
-    ## @param      self  The object
+    ## @param      self  El objeto
     ##
-    ## @return     The articulation points.
+    ## @return     Los puntos articulacion.
     ##
-    def get_articulation_points(self):
+    def get_puntos_articulacion(self):
+        return self.puntos_articulacion
 
-        return self.ap_result
-
-
-
-##---------------------------------------Example-----------------------------------------------
-
+# Ejemplo
 
 t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g1.txt"))    
-print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_articulation_points())
-print str(t1.get_articulation_points())
+print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
