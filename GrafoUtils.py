@@ -3,9 +3,8 @@ from collections import defaultdict
 def parse(clase, ruta_archivo):
     archivo = open(ruta_archivo)
     grafo = clase(int(archivo.readline())) 
-    for a in xrange(int(archivo.readline())):
-        u, v = map(int, archivo.readline().split())
-        grafo.eje(u, v)
+    for _ in xrange(int(archivo.readline())):
+        grafo.eje(*map(int, archivo.readline().split()))
     return grafo
 
 class Digrafo():
