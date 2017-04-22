@@ -1,19 +1,19 @@
 import timeit
 
 cantidad_iteraciones = 1
+nombre_archivo_output = "problema1_benchmark_N1_M1.txt"
 
-execution_time = timeit.timeit(
-stmt = "residencias.obtener_resultados()",
+total_time = timeit.timeit(
+stmt = "print residencias.obtener_resultados()",
 setup = """from asignacion_de_residencias import Residencias;
-estudiantes = 1000;
-hospitales = 1000;
-vacantes = 3;
+estudiantes = 10;
+hospitales = 10;
+vacantes = 1;
 residencias = Residencias(False, estudiantes, hospitales, vacantes)""", 
 number = cantidad_iteraciones)
 
-print execution_time / cantidad_iteraciones
+avg_time = total_time / cantidad_iteraciones
+print avg_time
 
-## N = M = 1, Vac = 3 --> 9.88594366876e-06 sec, 1000000 iteraciones
-## N = M = 10, Vac = 3 --> 0.000229955009812 sec, 10000 iteraciones
-## N = M = 100, Vac = 3 --> 0.0936539185934 sec, 50 iteraciones
-## N = M = 1000, Vac = 3 --> 0.0936539185934 sec, 50 iteraciones
+with open(nombre_archivo_output,"w") as archivo: 
+    archivo.write("Tiempo de ejecucion con N = 1 y M = 1 --> " + str(avg_time) + " segundos \n")
