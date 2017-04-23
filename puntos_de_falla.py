@@ -76,7 +76,7 @@ from sys import setrecursionlimit
 
 setrecursionlimit(10000)
 
-t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g6.txt"))    
+t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g5.txt"))    
 print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
 
 end = timer()

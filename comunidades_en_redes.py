@@ -43,6 +43,18 @@ class Kosaraju:
     
     def componente_dado_elemento(self, elemento):
         return self.componentes[self.asignado[elemento]]
-    
-k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d2.txt"))
+
+# Ejemplo
+from timeit import default_timer as timer
+
+start = timer()
+
+
+
+k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d6.txt"))
 print k1.cantidad_componentes()
+
+
+end = timer()
+
+print(str((end - start)*1000)+" mseg")
