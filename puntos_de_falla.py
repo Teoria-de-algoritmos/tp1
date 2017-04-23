@@ -12,6 +12,7 @@ class Tarjan:
     ## @param      grafo  El grafo a analizar
     ##
     def __init__(self, grafo):
+        self.grafo = grafo
         visitado = [False] * (grafo.vertices())                
         tiempo_de_descubrimiento = [float("Inf")] * (grafo.vertices())  
         tiempo_de_baja = [float("Inf")] * (grafo.vertices())        
@@ -76,9 +77,10 @@ from sys import setrecursionlimit
 
 setrecursionlimit(10000)
 
-t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g5.txt"))    
+t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g4.txt"))    
 print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
 
 end = timer()
 
-print(str((end - start)*1000)+" mseg")
+print("Vertices: "+str(t1.grafo.vertices()))
+print("Tiempo: "+str((end - start)*1000)+" mseg")

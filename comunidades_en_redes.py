@@ -14,29 +14,31 @@ class Kosaraju:
         ## Utilizando el algoritmo de Kosaraju
         visitado = [False] * vertices
         L = deque([])
-     
-        def visitar(u):
-            if not visitado[u]:
-                visitado[u] = True
-                for v in self.grafo.vecinos_entrantes(u):
-                    visitar(v)
-                L.appendleft(u)
-     
-        for u in xrange(vertices):
-            visitar(u)
-     
         asignado = [-1] * vertices
      
-        def asignar(u, raiz):
-            if asignado[u] == -1:
-                asignado[u] = raiz
-                for v in self.grafo.vecinos(u):
-                    asignar(v, raiz)
-        for u in L:
+        def visitar(u):                                     #recorrido DFS
+            if not visitado[u]:                             #si no esta visitado el vertice
+                visitado[u] = True                          #se lo marca como visitado
+                for v in self.grafo.vecinos_entrantes(u):   #se visitan sus hijos
+                    visitar(v)
+                L.appendleft(u)                             #al terminar se lo agrega al stack por tiempo de finalizacion
+     
+        def asignar(u, raiz):                               
+            if asignado[u] == -1:                           #si el elemento no esta asignado
+                asignado[u] = raiz                          #se lo define como la raiz
+                for v in self.grafo.vecinos(u):             #recorremos los hijos del elemento u
+                    asignar(v, raiz)                        #se llama a asignar a dicho hijo v
+
+        for u in xrange(vertices):                          #visitamos los elementos del grafo ordenando los elementos
+            visitar(u)                                      #en el stack por tiempo de finalizacion
+            
+     
+        for u in L:                                         #recorremos el grafo comenzando en orden de pop() del stack         
             asignar(u,u)
         
-        for i in xrange(vertices):
-            self.componentes[asignado[i]].append(i)
+        for i in xrange(vertices):                          #para todo elemento del grafo
+            self.componentes[asignado[i]].append(i)         #se crea un diccionario agrupando los elem. por componentes
+                                                            #fuertemente conexas
 
     def cantidad_componentes(self):
         return len(self.componentes)
@@ -49,12 +51,10 @@ from timeit import default_timer as timer
 
 start = timer()
 
-
-
-k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d6.txt"))
+k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d1.txt"))
 print k1.cantidad_componentes()
-
 
 end = timer()
 
-print(str((end - start)*1000)+" mseg")
+print("Vertices: "+str(k1.grafo.vertices()))
+print("Tiempo: "+str((end - start)*1000)+" mseg")
