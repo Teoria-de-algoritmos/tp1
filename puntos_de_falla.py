@@ -21,9 +21,7 @@ class Tarjan:
 
         ##
         ## @brief      Visita un vertice y actualiza los tiempos
-        ##
         ## @param      u     vertice
-        ##
         ## @return     None
         ##
         def visitar(u):
@@ -42,9 +40,7 @@ class Tarjan:
                     tiempo_de_baja[u] = min(tiempo_de_baja[u], tiempo_de_baja[v])     #Chequea los ancestros del subarbol comparando los tiempos de baja minima
                                         
                     # u es un punto de articulacion si se cumple los siguientes casos:
-                    # 
                     #(1) u es la raiz del arbol DFS y tiene al menos dos hijos. 
-                    #
                     #(2) Si el valor de baja de alguno de sus hijos es mayor al tiempo de descubrimiento de u    
                     #
                     if padre[u] == -1 and hijos > 1:               
@@ -65,9 +61,7 @@ class Tarjan:
     
     ##
     ## @brief      Gets the puntos articulacion.
-    ##
     ## @param      self  El objeto
-    ##
     ## @return     Los puntos articulacion.
     ##
     def get_puntos_articulacion(self):
