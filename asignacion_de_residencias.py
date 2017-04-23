@@ -1,5 +1,6 @@
 from random import shuffle, choice ## Shuffle desordena una lista, no devuelve nada. Choice devuelve un elemento random de una lista
 from collections import defaultdict
+from timeit import default_timer as timer
 
 class Residencias:
     
@@ -85,6 +86,18 @@ class Residencias:
             for hospital in self.H:
                 archivo.write("".join(str(merito) + " " for merito in hospital) + "\n")
             archivo.write("".join(str(vac) + " " for vac in self.Q) + "\n")
-    
-#r1 = Residencias()
-#print r1.obtener_resultados()
+
+from sys import setrecursionlimit
+
+setrecursionlimit(10000)
+
+start = timer()
+
+r1 = Residencias(False,1500,1500,1)
+print r1.obtener_resultados()
+
+end = timer()
+
+print("Hospitales: "+str(r1.hospitales))
+print("Estudiantes: "+str(r1.estudiantes))
+print("Tiempo: "+str((end - start)*1000)+" mseg")
