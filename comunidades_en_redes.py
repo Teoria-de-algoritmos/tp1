@@ -49,12 +49,13 @@ class Kosaraju:
 # Ejemplo
 from timeit import default_timer as timer
 
+nombre_archivo = raw_input("Ingrese la ruta del archivo de Input")
+
 start = timer()
-
-k1 = Kosaraju(parse(Digrafo, "Archivos/Problema 3/d1.txt"))
-print k1.cantidad_componentes()
-
+k1 = Kosaraju(parse(Digrafo, nombre_archivo))
 end = timer()
+
+print k1.cantidad_componentes()
 
 print("Vertices: "+str(k1.grafo.vertices()))
 print("Tiempo: "+str((end - start)*1000)+" mseg")

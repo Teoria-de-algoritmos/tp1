@@ -71,16 +71,17 @@ class Tarjan:
 # Ejemplo
 from timeit import default_timer as timer
 
-start = timer()
-
 from sys import setrecursionlimit
 
 setrecursionlimit(10000)
 
-t1 = Tarjan(parse(Grafo, "Archivos/Problema 2/g4.txt"))    
-print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
+nombre_archivo = raw_input("Ingrese la ruta del archivo de Input")
 
+start = timer()
+t1 = Tarjan(parse(Grafo, nombre_archivo))    
 end = timer()
+
+print "Puntos de articulacion: " + "".join(str(v) + " " for v in t1.get_puntos_articulacion())
 
 print("Vertices: "+str(t1.grafo.vertices()))
 print("Tiempo: "+str((end - start)*1000)+" mseg")

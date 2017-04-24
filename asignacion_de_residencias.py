@@ -48,7 +48,7 @@ class Residencias:
                 m_cant += 1
         for h in xrange(self.estudiantes):
             for m in xrange(self.hospitales):
-            	hombres[h].extend(dic_m[self.E[h][m]])
+                hombres[h].extend(dic_m[self.E[h][m]])
         return (self.estudiantes, m_cant, [hombres[h] for h in xrange(self.estudiantes)], mujeres)
      
     def gale_shapley(self, hombres, mujeres, pref_hombre, pref_mujer):
@@ -92,12 +92,15 @@ from sys import setrecursionlimit
 setrecursionlimit(10000)
 
 start = timer()
-
-r1 = Residencias(False,1500,1500,1)
-print r1.obtener_resultados()
-
+residencias = Residencias(True)
+print '\nResultado: ', residencias.obtener_resultados()
 end = timer()
+print("Tiempo de ejecucion: "+str((end - start)*1000.0)+" mseg")
 
-print("Hospitales: "+str(r1.hospitales))
-print("Estudiantes: "+str(r1.estudiantes))
-print("Tiempo: "+str((end - start)*1000)+" mseg")
+is_curious = raw_input("\nDesea ver los valores relacionados al resultado generado? (Y/N)")
+
+if is_curious == 'Y' or is_curious == 'y':
+    print '\nValores relacionados al resultado anterior:\n'
+    print 'Preferencia de cada estudiante: ', residencias.E
+    print 'Orden de Merito: ', residencias.H
+    print 'Vacantes por hospital: ', residencias.Q
