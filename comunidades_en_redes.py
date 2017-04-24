@@ -19,14 +19,14 @@ class Kosaraju:
         def visitar(u):                                     #recorrido DFS
             if not visitado[u]:                             #si no esta visitado el vertice
                 visitado[u] = True                          #se lo marca como visitado
-                for v in self.grafo.vecinos_entrantes(u):   #se visitan sus hijos
+                for v in self.grafo.vecinos(u):   #se visitan sus hijos
                     visitar(v)
                 L.appendleft(u)                             #al terminar se lo agrega al stack por tiempo de finalizacion
      
         def asignar(u, raiz):                               
             if asignado[u] == -1:                           #si el elemento no esta asignado
                 asignado[u] = raiz                          #se lo define como la raiz
-                for v in self.grafo.vecinos(u):             #recorremos los hijos del elemento u
+                for v in self.grafo.vecinos_entrantes(u):             #recorremos los hijos del elemento u
                     asignar(v, raiz)                        #se llama a asignar a dicho hijo v
 
         for u in xrange(vertices):                          #visitamos los elementos del grafo ordenando los elementos
